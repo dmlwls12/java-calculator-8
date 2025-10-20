@@ -30,7 +30,9 @@ public class Application {
                 len = 2;
             }
 
-            if(newIndex < 0) return 0;
+            if(newIndex < 0){
+                throw new IllegalArgumentException("잘못된 입력입니다.");
+            }
 
             String customSeparator = input.substring(2, newIndex);
             numbers = input.substring(newIndex + len);
@@ -40,9 +42,12 @@ public class Application {
         String[] arr = numbers.split(separator);
         int sum = 0;
         for(String s : arr){
-            if(!s.isBlank()){
-                sum += Integer.parseInt(s.trim());
-            }
+            String value = s.trim();
+            if(value.isBlank()) throw new IllegalArgumentException("빈 값은 허용되지 않습니다.");
+            if(!value.matches("-?\\d+")) throw new IllegalArgumentException("숫자 형식에 오류가 있습니다.");
+            int n = Integer.parseInt(value);
+            if(n < 0) throw new IllegalArgumentException("음수는 허용되지 않습니다.");
+            sum += n;
         }
         return sum;
     }
