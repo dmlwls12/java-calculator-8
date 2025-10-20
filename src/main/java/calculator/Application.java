@@ -1,8 +1,6 @@
 package calculator;
 import camp.nextstep.edu.missionutils.Console;
 
-import java.util.regex.Pattern;
-
 public class Application {
 
     private static final String ERR_INVALID_FORMAT = "잘못된 입력입니다.";
@@ -16,7 +14,6 @@ public class Application {
         try {
             String input = Console.readLine();
             int result = add(input);
-
             System.out.println("결과 : " + result);
         } finally {
             Console.close();
@@ -45,7 +42,7 @@ public class Application {
 
             String customSeparator = input.substring(2, newIndex);
             numbers = input.substring(newIndex + len);
-            separator = Pattern.quote(customSeparator);
+            separator = escapeRegex(customSeparator);
         }
 
         String[] arr = numbers.split(separator);
@@ -69,5 +66,17 @@ public class Application {
             sum += n;
         }
         return sum;
+    }
+
+    private static String escapeRegex(String str) {
+        String chars = "\\.^$|?*+()[]{}";
+        StringBuilder sb = new StringBuilder();
+        for (char c : str.toCharArray()) {
+            if (chars.indexOf(c) >= 0) {
+                sb.append("\\");
+            }
+            sb.append(c);
+        }
+        return sb.toString();
     }
 }
