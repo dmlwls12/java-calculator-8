@@ -4,14 +4,23 @@ import camp.nextstep.edu.missionutils.Console;
 import java.util.regex.Pattern;
 
 public class Application {
-    public static void main(String[] args) {
-        // TODO: 프로그램 구현
-        System.out.println("덧셈할 문자열을 입력해주세요.");
-        String input = Console.readLine();
-        int result = add(input);
-        System.out.println("결과 : " + result);
 
-        Console.close();
+    private static final String ERR_INVALID_FORMAT = "잘못된 입력입니다.";
+    private static final String ERR_EMPTY_TOKEN = "빈 값은 허용되지 않습니다.";
+    private static final String ERR_NUMBER_FORMAT = "숫자 형식에 오류가 있습니다.";
+    private static final String ERR_NEGATIVE = "음수는 허용되지 않습니다.";
+
+    public static void main(String[] args) {
+
+        System.out.println("덧셈할 문자열을 입력해주세요.");
+        try {
+            String input = Console.readLine();
+            int result = add(input);
+
+            System.out.println("결과 : " + result);
+        } finally {
+            Console.close();
+        }
     }
 
     public static int add(String input) {
@@ -31,7 +40,7 @@ public class Application {
             }
 
             if (newIndex < 0) {
-                throw new IllegalArgumentException("잘못된 입력입니다.");
+                throw new IllegalArgumentException(ERR_INVALID_FORMAT);
             }
 
             String customSeparator = input.substring(2, newIndex);
@@ -43,10 +52,20 @@ public class Application {
         int sum = 0;
         for (String s : arr) {
             String value = s.trim();
-            if (value.isBlank()) throw new IllegalArgumentException("빈 값은 허용되지 않습니다.");
-            if (!value.matches("-?\\d+")) throw new IllegalArgumentException("숫자 형식에 오류가 있습니다.");
+            if (value.isBlank()) {
+                throw new IllegalArgumentException(ERR_EMPTY_TOKEN);
+            }
+
+            if (!value.matches("-?\\d+")) {
+                throw new IllegalArgumentException(ERR_NUMBER_FORMAT);
+            }
+
             int n = Integer.parseInt(value);
-            if (n < 0) throw new IllegalArgumentException("음수는 허용되지 않습니다.");
+
+            if (n < 0) {
+                throw new IllegalArgumentException(ERR_NEGATIVE);
+            }
+
             sum += n;
         }
         return sum;
