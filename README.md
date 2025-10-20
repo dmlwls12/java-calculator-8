@@ -10,4 +10,4 @@
 - 계산 결과는 "결과 : {값}" 형태로 출력한다.
 
 3. 예외 처리 기능
-- 입력값에 음수가 포함되면 IllegalArgumentException을 발생시킨다.
+- 입력값에 음수나 "//;\n1;2-3" 등 잘못된 값을 입력하면 IllegalArgumentException을 발생시킨다.
